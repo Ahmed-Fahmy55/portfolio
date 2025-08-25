@@ -24,7 +24,7 @@ const PROJECTS = [
     tags: ["XR", "VR", "Unity"],
     href: "#",
     poster: "/assets/vr-surgery-poster.jpg",
-    video: "/assets/vr-surgery.mp4",
+    video: "https://www.youtube.com/watch?v=uM278vVcdNQ",
     category: "XR",
   },
   {
@@ -34,7 +34,7 @@ const PROJECTS = [
     tags: ["Game", "VR"],
     href: "#",
     poster: "/assets/fruit-slash-poster.jpg",
-    video: "/assets/fruit-slash.mp4",
+    video: "public/assets/Memorycard.mp4",
     category: "Games",
   },
   {
@@ -205,20 +205,33 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
       </CardHeader>
       <CardContent className="relative">
         <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl border border-white/10 bg-black/60">
-          {hasVideo ? (
-            <video
-              className="h-full w-full object-cover"
-              src={p.video}
-              poster={p.poster}
-              muted
-              playsInline
-              loop
-              preload="metadata"
-              autoPlay={hover}
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.35),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.35),transparent_40%)]" />
-          )}
+         {hasVideo ? (
+              p.video.includes("youtube") || p.video.includes("youtu.be") ? (
+                <iframe
+                  className="h-full w-full object-cover"
+                  src={`https://www.youtube.com/embed/${
+                    p.video.includes("v=")
+                      ? p.video.split("v=")[1].split("&")[0] // extract id from ?v=xxxx
+                      : p.video.split("/").pop() // extract id from youtu.be/xxxx
+                  }?autoplay=${hover ? 1 : 0}&mute=1&loop=1&playlist=${
+                    p.video.includes("v=")
+                      ? p.video.split("v=")[1].split("&")[0]
+                      : p.video.split("/").pop()
+                  }`}
+                  title="YouTube video"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                />
+              ) : (
+                <video className="h-full w-full object-cover" controls autoPlay={hover} muted loop playsInline poster={p.poster}>
+    <source src={p.video} type="video/mp4" />
+    Your browser does not support the video tag.
+</video> 
+              )
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.35),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.35),transparent_40%)]" />
+            )}
+
         </div>
         <div className="mt-3 flex items-center justify-between">
           <a href={p.href} className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white">
