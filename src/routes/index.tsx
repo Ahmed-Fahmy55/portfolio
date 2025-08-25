@@ -18,13 +18,13 @@ import { Github, Linkedin, Mail, Link as LinkIcon, Layers, Play } from "lucide-r
 
 const PROJECTS = [
   {
-    id: "vr-surgery",
-    title: "VR Surgical Trainer",
+    id: "AsteraX",
+    title: "AsteraX",
     role: "Unity · XR Interaction Toolkit · Quest 2/3",
     tags: ["XR", "VR", "Unity"],
     href: "#",
     poster: "/assets/vr-surgery-poster.jpg",
-    video: "https://www.youtube.com/watch?v=uM278vVcdNQ",
+    video: "https://youtu.be/SjHiJ0OuiIM",
     category: "XR",
   },
   {
@@ -89,7 +89,7 @@ function Header() {
         <a href="#home" className="group inline-flex items-center gap-2">
           <div className="h-7 w-7 rounded-xl bg-gradient-to-br from-indigo-500 via-fuchsia-500 to-emerald-400" />
           <span className="text-sm font-semibold tracking-wide text-white/90 group-hover:text-white">
-            ahmed mohammed fahmy
+            Ahmed Fahmy
           </span>
         </a>
         <nav className="hidden items-center gap-2 md:flex">
@@ -125,10 +125,10 @@ function Hero() {
       <motion.div style={{ y }} className="mx-auto flex max-w-7xl flex-col gap-8 px-4">
         <div className="inline-flex items-center gap-2">
           <Badge variant="secondary" className="rounded-full px-3 py-1">XR & Game Developer</Badge>
-          <span className="text-white/60 text-sm">Unity · C# · VR · AR · WebGL</span>
+          <span className="text-white/60 text-sm">Unity · C# · VR · AR . MR . 3D . 2D </span>
         </div>
         <h1 className="text-balance text-5xl font-black leading-[1.05] tracking-tight md:text-7xl">
-          Crafting immersive <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-emerald-300 bg-clip-text text-transparent">XR experiences</span> and playful interfaces.
+          Crafting immersive <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-emerald-300 bg-clip-text text-transparent">XR experiences</span> && 2D/3D Games.
         </h1>
         <p className="max-w-2xl text-lg text-white/70">
           I build performant, human-centered 3D apps—from quick prototypes to shipped products. My work spans VR training, gameplay systems, and spatial UI.
@@ -137,9 +137,13 @@ function Hero() {
           <Button asChild className="rounded-2xl">
             <a href="#work"><Layers className="mr-2 h-4 w-4" /> View work</a>
           </Button>
-          <Button variant="outline" asChild className="rounded-2xl">
-            <a href="#contact"><Mail className="mr-2 h-4 w-4" /> Contact</a>
-          </Button>
+        <a
+          href="#contact"
+          className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5"
+        >
+          <Mail className="h-4 w-4" /> Contact
+        </a>
+
           <a href="https://github.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5">
             <Github className="h-4 w-4" /> GitHub
           </a>
@@ -148,35 +152,7 @@ function Hero() {
           </a>
         </div>
       </motion.div>
-      <Marquee />
     </section>
-  );
-}
-
-function Marquee() {
-  // Simple CSS marquee line
-  const words = [
-    "Unity", "C#", "VR", "AR", "URP", "XR Interaction Toolkit", "Netcode", "UGS", "Framer Motion", "Three.js", "WebGL", "Convai", "Vuforia", "MRTK", "Oculus Quest",
-  ];
-  return (
-    <div className="pointer-events-none absolute bottom-0 left-0 right-0 -mb-6 overflow-hidden">
-      <div className="animate-[marquee_24s_linear_infinite] whitespace-nowrap border-y border-white/10 py-3 text-white/60 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-        {Array(2)
-          .fill(0)
-          .map((_, i) => (
-            <span key={i} className="mr-8">
-              {words.map((w, idx) => (
-                <span key={`${i}-${idx}`} className="mx-4 text-sm tracking-widest">
-                  • {w}
-                </span>
-              ))}
-            </span>
-          ))}
-      </div>
-      <style>{`
-        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-      `}</style>
-    </div>
   );
 }
 
@@ -367,7 +343,7 @@ function Footer() {
   );
 }
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: App,
 })
 
