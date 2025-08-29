@@ -7,14 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Github, Linkedin, Mail, Link as LinkIcon, Layers, Play } from "lucide-react";
 
-/**
- * Single-file React portfolio inspired by jayvanhutten.com
- * Styling: TailwindCSS + shadcn/ui, animations via Framer Motion
- * Notes:
- *  - Replace placeholder media (poster, video) under /public/assets/…
- *  - Update the PROJECTS array with your real work
- *  - This file exports a default component ready to render in any React app
- */
 
 const PROJECTS = [
   {
