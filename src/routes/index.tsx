@@ -148,9 +148,7 @@ function Header() {
               {l.label}
             </a>
           ))}
-          <Button asChild variant="secondary" className="ml-2 rounded-2xl">
-            <a href="#contact">Let’s talk</a>
-          </Button>
+
         </nav>
       </div>
     </motion.header>
@@ -170,10 +168,10 @@ function Hero() {
           <span className="text-white/60 text-sm">Unity · C# · VR · AR . MR . 3D . 2D </span>
         </div>
         <h1 className="text-balance text-5xl font-black leading-[1.05] tracking-tight md:text-7xl">
-          Crafting immersive <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-emerald-300 bg-clip-text text-transparent">XR experiences</span> && 2D/3D Games.
+          Crafting immersive <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-emerald-300 bg-clip-text text-transparent">XR experiences</span> and <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-emerald-300 bg-clip-text text-transparent">2D/3D Games.</span>
         </h1>
         <p className="max-w-2xl text-lg text-white/70">
-          I build performant, human-centered 3D apps—from quick prototypes to shipped products. My work spans VR training, gameplay systems, and spatial UI.
+          From quick prototypes to polished releases, I shape worlds that balance fun, usability, and performance.
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <Button asChild className="rounded-2xl">
@@ -186,10 +184,10 @@ function Hero() {
           <Mail className="h-4 w-4" /> Contact
         </a>
 
-          <a href="https://github.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5">
+          <a href="https://github.com/Ahmed-Fahmy55" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5">
             <Github className="h-4 w-4" /> GitHub
           </a>
-          <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5">
+          <a href="https://www.linkedin.com/in/ahmed-fahmy-4101231b4/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5">
             <Linkedin className="h-4 w-4" /> LinkedIn
           </a>
         </div>
@@ -210,7 +208,7 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
     >
       <CardHeader className="z-10 flex flex-row items-center justify-between gap-2">
         <div>
-          <h3 className="text-lg font-semibold">{p.title}</h3>
+        <h3 className="text-lg font-semibold text-indigo-400">{p.title}</h3>
           <p className="text-sm text-white/70">{p.role}</p>
         </div>
         <div className="flex flex-wrap gap-1">
@@ -252,9 +250,6 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
 
         </div>
         <div className="mt-3 flex items-center justify-between">
-          <a href={p.href} className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white">
-            <LinkIcon className="h-4 w-4" /> Case study
-          </a>
           {hasVideo && (
             <span className="inline-flex items-center gap-1 text-xs text-white/60"><Play className="h-3.5 w-3.5" /> hover to play</span>
           )}
@@ -316,24 +311,28 @@ function About() {
     <section id="about" className="relative mx-auto max-w-7xl px-4 py-20">
       <div className="grid items-start gap-8 md:grid-cols-5">
         <div className="md:col-span-2">
-          <div className="aspect-square overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(60%_60%_at_50%_40%,rgba(236,72,153,0.25),transparent)]" />
-        </div>
+<div className="aspect-[2/3] overflow-hidden rounded-3xl border border-white/10">
+  <img
+    src="/myPhoto.jpg"   
+    alt="Ahmed Fahmy"
+    className="h-full w-full object-cover object-[center_20%]"
+  />
+</div>        </div>
         <div className="md:col-span-3">
           <h2 className="text-3xl font-bold">About</h2>
           <p className="mt-4 text-white/80">
-            I’m a professional XR & game developer focused on Unity, performance, and player experience. I’ve shipped VR training, gameplay systems, and tools used by teams. I teach 2D/3D/VR development and C# fundamentals as a TA, and I love turning complex systems into intuitive interactions.
+            I’m a professional XR & Game developer. I’ve shipped XR experiences, gameplay systems, and tools used by teams. I teach 2D/3D/VR development and C# fundamentals as a TA, and I love turning complex systems into intuitive interactions.
           </p>
           <ul className="mt-6 grid grid-cols-2 gap-3 text-sm text-white/70 sm:grid-cols-3">
             {[
               "Unity (URP/HDRP)",
-              "XR Interaction Toolkit",
+              "VR / AR / MR",
+              "2D/3D Game Development",
+              "Physics / Animation",
               "Netcode / UGS",
               "C# / Design Patterns",
               "Optimization & Profiling",
-              "Three.js / WebGL",
-              "Vuforia / MRTK",
               "Git / CI",
-              "Teaching & Docs",
             ].map((s) => (
               <li key={s} className="rounded-xl border border-white/10 px-3 py-2">{s}</li>
             ))}
@@ -344,30 +343,7 @@ function About() {
   );
 }
 
-function Contact() {
-  return (
-    <section id="contact" className="relative mx-auto max-w-7xl px-4 py-20">
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur">
-        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-          <div>
-            <h2 className="text-3xl font-bold">Let’s build something immersive</h2>
-            <p className="mt-2 max-w-xl text-white/70">
-              Tell me about your project, timeline, and goals. I’ll get back to you with ideas and a clear next step.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg" className="rounded-2xl">
-              <a href="mailto:ahmed@example.com"><Mail className="mr-2 h-4 w-4" /> Email me</a>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="rounded-2xl">
-              <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer"><Linkedin className="mr-2 h-4 w-4" /> LinkedIn</a>
-            </Button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+
 
 function Footer() {
   return (
@@ -397,7 +373,6 @@ function App() {
         <Hero />
         <Work />
         <About />
-        <Contact />
       </main>
       <Footer />
     </div>
