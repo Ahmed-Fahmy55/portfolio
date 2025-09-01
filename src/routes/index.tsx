@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Github, Linkedin, Mail, Link as LinkIcon, Layers, Play } from "lucide-react";
+import { Github, Linkedin, Mail, Link as  Layers, Play } from "lucide-react";
 
 
 const PROJECTS = [
