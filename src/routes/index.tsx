@@ -138,7 +138,6 @@ function Header() {
           {[
             { id: "work", label: "Work" },
             { id: "about", label: "About" },
-            { id: "contact", label: "Contact" },
           ].map((l) => (
             <a
               key={l.id}
@@ -177,12 +176,6 @@ function Hero() {
           <Button asChild className="rounded-2xl">
             <a href="#work"><Layers className="mr-2 h-4 w-4" /> View work</a>
           </Button>
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5"
-        >
-          <Mail className="h-4 w-4" /> Contact
-        </a>
 
           <a href="https://github.com/Ahmed-Fahmy55" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5">
             <Github className="h-4 w-4" /> GitHub
@@ -354,7 +347,6 @@ function Footer() {
           <a href="#home" className="hover:text-white">Top</a>
           <a href="#work" className="hover:text-white">Work</a>
           <a href="#about" className="hover:text-white">About</a>
-          <a href="#contact" className="hover:text-white">Contact</a>
         </div>
       </div>
     </footer>
