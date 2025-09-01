@@ -111,7 +111,7 @@ const PROJECTS = [
   },
 ];
 
-const TAGS = ["All", "VR", "Games", "Tools","Prototypes","Teaching Sample"] as const;
+const TAGS = ["All", "VR", "Games","Teaching Samples","Prototypes"] as const;
 
 function useParallax(value: any, distance: number) {
   return useTransform(value, [0, 1], [-distance, distance]);
