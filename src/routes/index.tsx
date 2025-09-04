@@ -9,6 +9,46 @@ import { Github, Linkedin, Mail, Link as  Layers, Play } from "lucide-react";
 
 
 const PROJECTS = [
+      {
+    id: "BLS VR Training",
+    title: "BLS VR Training (Done at Merse)",
+    role: "Basic Life Support training in VR ",
+    tags: ["Game Programing"],
+    href: "#",
+    poster: "/BLS_Poster.png",
+    video: "/BLS.mkv",
+    category: "VR",
+  },
+    {
+    id: "Golden Chemistry",
+    title: "Golden Chemistry",
+    role: "Chemistry learning app in VR",
+    tags: ["Game Programming"],
+    href: "#",
+    poster: "",
+    video: "https://youtu.be/tRU6C6511Kw",
+    category: "VR",
+  },
+  {
+    id: "Ozempic pen game",
+    title: "Ozempic Pen",
+    role: "Hack and slash VR game",
+    tags: ["Game Programming"],
+    href: "#",
+    poster: "",
+    video: "https://youtu.be/zbGZ2CTbEaQ",
+    category: "VR",
+  },
+  {
+    id: "360 VR Video Player",
+    title: "360 Video Player",
+    role: "Video player for 360 videos in VR",
+    tags: ["Game Programing"],
+    href: "#",
+    poster: "",
+    video: "https://youtu.be/dSqz7mr-RdU",
+    category: "VR",
+  },
   {
     id: "AsteraX",
     title: "AsteraX",
@@ -68,36 +108,6 @@ const PROJECTS = [
     poster: "",
     video: "https://youtu.be/dsuoquBNkcY",
     category: "Games",
-  },
-  {
-    id: "Golden Chemistry",
-    title: "Golden Chemistry",
-    role: "Chemistry learning app in VR",
-    tags: ["Game Programming"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/tRU6C6511Kw",
-    category: "VR",
-  },
-  {
-    id: "Ozempic pen game",
-    title: "Ozempic Pen",
-    role: "Hack and slash VR game",
-    tags: ["Game Programming"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/zbGZ2CTbEaQ",
-    category: "VR",
-  },
-  {
-    id: "360 VR Video Player",
-    title: "360 Video Player",
-    role: "Video player for 360 videos in VR",
-    tags: ["Game Programing"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/dSqz7mr-RdU",
-    category: "VR",
   },
   {
     id: "One Piece (Lv4 UH Universty Course )",
@@ -314,8 +324,19 @@ function About() {
         <div className="md:col-span-3">
           <h2 className="text-3xl font-bold">About</h2>
           <p className="mt-4 text-white/80">
-            I’m a professional XR & Game developer. I’ve shipped XR experiences, gameplay systems, and tools used by teams. I teach 2D/3D/VR development and C# fundamentals as a TA, and I love turning complex systems into intuitive interactions.
-          </p>
+  As a passionate XR and Game Developer, I specialize in creating immersive VR, AR, and MR experiences that push the boundaries of interaction, realism, and engagement.
+</p>
+
+<p className="mt-4 text-white/80">
+  I have worked on a wide range of XR projects spanning various industries, including:
+</p>
+
+<ul className="mt-4 space-y-2 text-white/80 list-none">
+  <li>✅ Education & Training: VR learning experiences, interactive simulations, and skill-based training applications</li>
+  <li>✅ Healthcare & Medical Simulations: Virtual reality applications for medical training, rehabilitation, and patient education</li>
+  <li>✅ Entertainment & Gaming: Engaging XR-based games and interactive experiences</li>
+  <li>✅ Enterprise & Productivity: VR applications for collaboration, remote work, and real-time data visualization</li>
+</ul>
           <ul className="mt-6 grid grid-cols-2 gap-3 text-sm text-white/70 sm:grid-cols-3">
             {[
               "Unity (URP/HDRP)",
