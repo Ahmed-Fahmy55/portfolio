@@ -69,6 +69,26 @@ const PROJECTS = [
     video: "https://youtu.be/5CpjykKFXpg",
     category: "Games",
   },
+    {
+    id: "kichen Chaos ",
+    title: "kichen Chaos",
+    role: "Cooperative 3D kitchen game",
+    tags: ["Game Programing"],
+    href: "#",
+    poster: "",
+    video: "https://youtu.be/3_pYFQyDzGw",
+    category: "Games",
+  },
+    {
+    id: "Tank War ",
+    title: "Tank War",
+    role: "Competitive 3D tank battle game",
+    tags: ["Game Programing"],
+    href: "#",
+    poster: "",
+    video: "https://youtu.be/dLxWG47LB00",
+    category: "Games",
+  },
   {
     id: "Farm-Invaders",
     title: "Farm-Invaders",
@@ -100,16 +120,6 @@ const PROJECTS = [
     category: "Games",
   },
   {
-    id: "Saudi National day Game",
-    title: "Saudi National day Question Game",
-    role: "Simple question game to celebrate Saudi National day",
-    tags: ["Game Programing"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/dsuoquBNkcY",
-    category: "Games",
-  },
-  {
     id: "One Piece (Lv4 UH Universty Course )",
     title: "One Piece ",
     role: "Lv4 UH Universty Course Project",
@@ -117,7 +127,7 @@ const PROJECTS = [
     href: "#",
     poster: "",
     video: "https://youtu.be/4ZzcX1gLtis",
-    category: "Teaching Sample",
+    category: "Teaching Samples",
   },
 ];
 
