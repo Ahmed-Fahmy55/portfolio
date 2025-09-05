@@ -19,6 +19,16 @@ const PROJECTS = [
     video: "/BLS.mkv",
     category: "VR",
   },
+  {
+    id: "Physics Lab VR",
+    title: "physics Lab VR",
+    role: "Physics learning app in VR",
+    tags: ["Game Programming"],
+    href: "#",
+    poster: "",
+    video: "https://youtu.be/us8AuH3yriI",
+    category: "VR",
+  },
     {
     id: "Golden Chemistry",
     title: "Golden Chemistry",
