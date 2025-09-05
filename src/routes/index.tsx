@@ -356,6 +356,8 @@ function About() {
   <li>✅ Healthcare & Medical Simulations: Virtual reality applications for medical training, rehabilitation, and patient education</li>
   <li>✅ Entertainment & Gaming: Engaging XR-based games and interactive experiences</li>
   <li>✅ Enterprise & Productivity: VR applications for collaboration, remote work, and real-time data visualization</li>
+    <li>✅ Traditional 2D and 3D games, including games integrated with dashboards for full customization and management, giving clients the ability to tailor gameplay, content, and analytics to their needs.</li>
+
 </ul>
           <ul className="mt-6 grid grid-cols-2 gap-3 text-sm text-white/70 sm:grid-cols-3">
             {[
