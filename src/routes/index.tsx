@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Github, Linkedin, Mail, Link as  Layers, Play } from "lucide-react";
+import { Github, Linkedin, Link as  Layers, Play } from "lucide-react";
 
 
 const PROJECTS = [
@@ -49,15 +49,25 @@ const PROJECTS = [
     video: "https://youtu.be/zbGZ2CTbEaQ",
     category: "VR",
   },
-  {
-    id: "360 VR Video Player",
-    title: "360 Video Player",
-    role: "Video player for 360 videos in VR",
-    tags: ["Game Programing"],
+  // {
+  //   id: "360 VR Video Player",
+  //   title: "360 Video Player",
+  //   role: "Video player for 360 videos in VR",
+  //   tags: ["Game Programing"],
+  //   href: "#",
+  //   poster: "",
+  //   video: "https://youtu.be/dSqz7mr-RdU",
+  //   category: "VR",
+  // },
+    {
+    id: "Match Card",
+    title: "Memory Glitch",
+    role: "Si-Fi glitchy card matching game",
+    tags: ["full Development"],
     href: "#",
     poster: "",
-    video: "https://youtu.be/dSqz7mr-RdU",
-    category: "VR",
+    video: "https://youtu.be/0-K8m4zf0vY",
+    category: "Games",
   },
   {
     id: "AsteraX",
@@ -107,16 +117,6 @@ const PROJECTS = [
     href: "#",  
     poster: "",
     video: "https://youtu.be/Ulz9RGtLlPk",
-    category: "Games",
-  },
-  {
-    id: "Match Card",
-    title: "Match Card",
-    role: "3D card matching game",
-    tags: ["Game Programing"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/0fW71K6Essg",
     category: "Games",
   },
   {
