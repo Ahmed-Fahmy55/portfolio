@@ -1,415 +1,462 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useState, useEffect, useRef } from 'react'
 
-import  { useMemo, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Github, Linkedin, Link as  Layers, Play } from "lucide-react";
+const ICON_PLAY = (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z" />
+  </svg>
+)
+const ICON_DOC = (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <path d="M14 2v6h6M9 13h6M9 17h6" />
+  </svg>
+)
+const ICON_MAIL = (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="m22 7-10 6L2 7" />
+  </svg>
+)
+const ICON_ARROW = (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+)
 
+const statusLabel: Record<string, string> = { deployed: 'Deployed', beta: 'In Beta' }
 
-const PROJECTS = [
-      {
-    id: "BLS VR Training",
-    title: "BLS VR Training (Done at Merse)",
-    role: "Basic Life Support training in VR ",
-    tags: ["Game Programing"],
-    href: "#",
-    poster: "/BLS_Poster.png",
-    video: "/BLS.mkv",
-    category: "VR",
-  },
-  {
-    id: "Physics Lab VR",
-    title: "physics Lab VR",
-    role: "Physics learning app in VR",
-    tags: ["Game Programming"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/us8AuH3yriI",
-    category: "VR",
-  },
-    {
-    id: "Golden Chemistry",
-    title: "Golden Chemistry",
-    role: "Chemistry learning app in VR",
-    tags: ["Game Programming"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/tRU6C6511Kw",
-    category: "VR",
-  },
-  {
-    id: "Ozempic pen game",
-    title: "Ozempic Pen",
-    role: "Hack and slash VR game",
-    tags: ["Game Programming"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/zbGZ2CTbEaQ",
-    category: "VR",
-  },
-  // {
-  //   id: "360 VR Video Player",
-  //   title: "360 Video Player",
-  //   role: "Video player for 360 videos in VR",
-  //   tags: ["Game Programing"],
-  //   href: "#",
-  //   poster: "",
-  //   video: "https://youtu.be/dSqz7mr-RdU",
-  //   category: "VR",
-  // },
-    {
-    id: "Match Card",
-    title: "Memory Glitch",
-    role: "Si-Fi glitchy card matching game",
-    tags: ["full Development"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/0-K8m4zf0vY",
-    category: "Games",
-  },
-  {
-    id: "AsteraX",
-    title: "AsteraX",
-    role: "Fast-paced 2D space shooter",
-    tags: ["Full Development"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/SjHiJ0OuiIM",
-    category: "Games",
-  },
-  {
-    id: "Zone-8 ",
-    title: "Zone-8",
-    role: "Top-down stealth game",
-    tags: ["Full Development"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/5CpjykKFXpg",
-    category: "Games",
-  },
-    {
-    id: "kichen Chaos ",
-    title: "kichen Chaos",
-    role: "Cooperative 3D kitchen game",
-    tags: ["Game Programing"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/3_pYFQyDzGw",
-    category: "Games",
-  },
-    {
-    id: "Tank War ",
-    title: "Tank War",
-    role: "Competitive 3D tank battle game",
-    tags: ["Game Programing"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/dLxWG47LB00",
-    category: "Games",
-  },
-  {
-    id: "Farm-Invaders",
-    title: "Farm-Invaders",
-    role: "2D top-down bullet hell ",
-    tags: [ "Full Development"],
-    href: "#",  
-    poster: "",
-    video: "https://youtu.be/Ulz9RGtLlPk",
-    category: "Games",
-  },
-  {
-    id: "Competion Question Game",
-    title: "Competion Question Game",
-    role: "Tow Teams compete in answering questions",
-    tags: ["Game Programing"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/NGKdIPN69Ac",
-    category: "Games",
-  },
-  {
-    id: "One Piece (Lv4 UH Universty Course )",
-    title: "One Piece ",
-    role: "Lv4 UH Universty Course Project",
-    tags: ["Game Programing"],
-    href: "#",
-    poster: "",
-    video: "https://youtu.be/4ZzcX1gLtis",
-    category: "Teaching Samples",
-  },
-];
-
-const TAGS = ["All", "VR", "Games","Teaching Samples"] as const;
-
-function useParallax(value: any, distance: number) {
-  return useTransform(value, [0, 1], [-distance, distance]);
+interface Project {
+  mark: string
+  cat: string
+  tag: string
+  filter: string
+  role: string
+  status: string | null
+  title: string
+  grad: string
+  desc: string
+  chips: string[]
+  video: string | null       // YouTube video ID
+  localVideo: string | null  // path to local video in /public
+  poster: string | null      // path to local poster image in /public
+  repo: string | null
+  challenge: string
+  outcome: string
 }
 
-function Header() {
-  const { scrollYProgress } = useScroll();
-  const blur = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(6px)"]);
-  const bg = useTransform(scrollYProgress, [0, 1], ["rgba(10,10,12,0.3)", "rgba(10,10,12,0.75)"]);
+const PROJECTS: Project[] = [
+  {
+    mark: 'BLS', cat: 'VR', tag: 'VR · Medical', filter: 'VR', role: 'Lead Programmer', status: 'deployed',
+    title: 'BLS VR Training', grad: 'linear-gradient(135deg,#1f3864,#2e5aac)',
+    desc: 'Basic Life Support medical-training simulation in VR. Built the interaction framework and training-flow sequencing in Unity, designed for reuse across titles. Shipped and deployed to clients at Merse.',
+    chips: ['Unity', 'OpenXR', 'Meta XR SDK', 'XR Interaction Toolkit'], video: null, localVideo: '/BLS.mp4', poster: '/BLS_Poster.png', repo: '#',
+    challenge: 'Make clinical steps feel intuitive in VR while keeping the training flow strict enough to assess correctly — and build it as a reusable framework, not a one-off.',
+    outcome: 'Shipped and deployed to real clients at Merse; the interaction and sequencing systems were reused to cut development time on later titles.',
+  },
+  {
+    mark: 'PLT', cat: 'Games', tag: 'Platform · Mini Games', filter: 'Games', role: 'Lead Programmer', status: 'beta',
+    title: 'Configurable Mini-Game Platform', grad: 'linear-gradient(135deg,#2e5aac,#5a3db0)',
+    desc: 'Client-facing platform to pick mini-games and fully customize theme, content, and data. Architecting the modular core and a data-driven config layer so each deployment is reskinnable without code changes. In beta at Bltzo.',
+    chips: ['Unity', 'C#', 'Addressables/Asset Bundles', 'Netcode for GameObjects'], video: null, localVideo: null, poster: null, repo: null,
+    challenge: 'Let non-technical clients fully reskin theme, content, and data without touching code, which required a strict, data-driven architecture and clean separation of content from logic.',
+    outcome: 'Currently in beta at Bltzo; each client deployment is now a configuration rather than a rebuild.',
+  },
+  {
+    mark: 'PHY', cat: 'VR', tag: 'VR · Education', filter: 'VR', role: 'Gameplay Programming', status: 'deployed',
+    title: 'Physics Lab VR', grad: 'linear-gradient(135deg,#155e63,#1f8a5b)',
+    desc: 'Immersive VR physics-learning app where students run experiments hands-on. Built the simulation and interaction systems, tuned for stable performance on standalone headsets. Shipped to clients at Bright Vision.',
+    chips: ['Unity', 'OpenXR','Interaction Toolkit', 'Physics', 'C#'], video: 'us8AuH3yriI', localVideo: null, poster: null, repo: '#',
+    challenge: 'Simulate physics experiments interactively while holding a stable frame rate on standalone headsets with limited GPU budget.',
+    outcome: 'Shipped and deployed to clients at Bright Vision.',
+  },
+  {
+    mark: 'GC', cat: 'VR', tag: 'VR · Education', filter: 'VR', role: 'Gameplay Programming', status: null,
+    title: 'Golden Chemistry', grad: 'linear-gradient(135deg,#9a6a12,#c77b1a)',
+    desc: 'VR chemistry-learning app — my graduation project at ITI. Designed interactive lab experiences that make abstract chemistry tangible in 3D space.',
+    chips: ['Unity', 'OpenXR','Interaction Toolkit', 'C#'], video: 'tRU6C6511Kw', localVideo: null, poster: null, repo: '#',
+    challenge: 'Turn abstract chemistry concepts into tangible, manipulable 3D interactions that teach effectively.',
+    outcome: 'Completed as my graduation project at ITI.',
+  },
+  {
+    mark: 'OZ', cat: 'VR', tag: 'VR · Game', filter: 'VR', role: 'Lead Programmer', status: 'deployed',
+    title: 'Ozempic Pen', grad: 'linear-gradient(135deg,#1f4a3a,#2e8a6b)',
+    desc: 'Hack-and-slash VR game built in Unity. Developed combat mechanics and player interactions for an engaging VR action experience.',
+    chips: ['Unity', 'VR', 'C#', 'Meta XR SDK'], video: 'zbGZ2CTbEaQ', localVideo: null, poster: null, repo: '#',
+    challenge: 'Design satisfying melee combat that feels physical and responsive within VR constraints.',
+    outcome: 'Shipped as a complete VR game experience.',
+  },
+  {
+    mark: 'KC', cat: 'Games', tag: '3D · Co-op', filter: 'Games', role: 'Solo Developer', status: null,
+    title: 'Kitchen Chaos', grad: 'linear-gradient(135deg,#7a3b1f,#b5541f)',
+    desc: 'Cooperative 3D kitchen game where players race to prep and plate orders together. Built the full gameplay loop, state-driven cooking stations, and multiplayer sync.',
+    chips: ['Unity', 'Netcode for GameObjects', 'C#'], video: '3_pYFQyDzGw', localVideo: null, poster: null, repo: '#',
+    challenge: 'Coordinate state across cooking stations and keep cooperative play in sync across clients.',
+    outcome: 'A focused, completed study in clean architecture and networked gameplay.',
+  },
+  {
+    mark: 'AX', cat: 'Games', tag: '2D · Arcade', filter: 'Games', role: 'Solo Developer', status: null,
+    title: 'AsteraX', grad: 'linear-gradient(135deg,#1b2a4a,#345083)',
+    desc: 'Fast-paced 2D space shooter. Full development across gameplay, game feel, and progression.',
+    chips: ['Unity', '2D', 'C#'], video: 'SjHiJ0OuiIM', localVideo: null, poster: null, repo: '#',
+    challenge: 'Tune game feel — responsive controls, juice, and difficulty pacing — in a classic arcade loop.',
+    outcome: 'Built end-to-end as a solo project.',
+  },
+  {
+    mark: 'Z8', cat: 'Games', tag: 'Top-down · Stealth', filter: 'Games', role: 'Solo Developer', status: null,
+    title: 'Zone-8', grad: 'linear-gradient(135deg,#23303f,#3d5a6b)',
+    desc: 'Top-down stealth game with enemy detection and patrol AI. Full development — systems, levels, and mechanics.',
+    chips: ['Unity', 'AI', 'C#'], video: '5CpjykKFXpg', localVideo: null, poster: null, repo: '#',
+    challenge: 'Build believable enemy detection and patrol AI that makes stealth feel fair and readable.',
+    outcome: 'A complete top-down stealth game built solo.',
+  },
+  {
+    mark: 'MG', cat: 'Games', tag: '2D · Puzzle', filter: 'Games', role: 'Solo Developer', status: null,
+    title: 'Memory Glitch', grad: 'linear-gradient(135deg,#3a1f5a,#6a3db0)',
+    desc: 'Sci-fi glitchy card-matching game. Full development with custom shader-driven visual effects.',
+    chips: ['Unity', 'Shader Graph', 'C#'], video: '0-K8m4zf0vY', localVideo: null, poster: null, repo: '#',
+    challenge: 'Drive the sci-fi glitch aesthetic with custom shaders without hurting card readability.',
+    outcome: 'Full development including the shader-driven visual effects.',
+  },
+  {
+    mark: 'TW', cat: 'Games', tag: '3D · Competitive', filter: 'Games', role: 'Solo Developer', status: null,
+    title: 'Tank War', grad: 'linear-gradient(135deg,#3f4a23,#6b7a3d)',
+    desc: 'Competitive 3D tank battle. Built the full gameplay, controls, and combat systems.',
+    chips: ['Unity', '3D', 'C#', 'Netcode for GameObjects'], video: 'dLxWG47LB00', localVideo: null, poster: null, repo: '#',
+    challenge: 'Balance competitive 3D combat and controls so matches feel fair and fun.',
+    outcome: 'Full gameplay and combat systems built solo.',
+  },
+  {
+    mark: 'FI', cat: 'Games', tag: '2D · Bullet Hell', filter: 'Games', role: 'Solo Developer', status: null,
+    title: 'Farm-Invaders', grad: 'linear-gradient(135deg,#5a3d1f,#a06a2e)',
+    desc: '2D top-down bullet hell. Full development — wave spawning, attack patterns, and scoring.',
+    chips: ['Unity', '2D', 'C#'], video: 'Ulz9RGtLlPk', localVideo: null, poster: null, repo: '#',
+    challenge: 'Design wave spawning and bullet patterns that scale smoothly in difficulty.',
+    outcome: 'A complete 2D bullet-hell loop with scoring.',
+  },
+  {
+    mark: 'CQ', cat: 'Teaching', tag: 'Quiz · Customizable', filter: 'Teaching', role: 'Lead Programmer', status: null,
+    title: 'Competition Question Game', grad: 'linear-gradient(135deg,#1f5d4c,#2e8a73)',
+    desc: 'Two teams compete to answer questions in a customizable quiz game built as a teaching sample.',
+    chips: ['Unity', 'C#'], video: 'NGKdIPN69Ac', localVideo: null, poster: null, repo: '#',
+    challenge: 'Make the quiz fully customizable so questions and content can be swapped per session.',
+    outcome: 'Built as a reusable teaching sample.',
+  },
+  {
+    mark: 'OP', cat: 'Teaching', tag: 'Course Project', filter: 'Teaching', role: 'Lead Programmer', status: null,
+    title: 'One Piece', grad: 'linear-gradient(135deg,#2a3550,#46618f)',
+    desc: 'A Level 4 University of Hertfordshire course project demonstrating core Unity gameplay concepts.',
+    chips: ['Unity', 'C#'], video: '4ZzcX1gLtis', localVideo: null, poster: null, repo: '#',
+    challenge: 'Demonstrate core Unity gameplay concepts clearly for a Level 4 course.',
+    outcome: 'Completed for a University of Hertfordshire course.',
+  },
+]
 
+function Nav() {
   return (
-    <motion.header
-      style={{ backdropFilter: blur, background: bg }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-white/10"
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <a href="#home" className="group inline-flex items-center gap-2">
-          <div className="h-7 w-7 rounded-xl bg-gradient-to-br from-indigo-500 via-fuchsia-500 to-emerald-400" />
-          <span className="text-sm font-semibold tracking-wide text-white/90 group-hover:text-white">
-            Ahmed Fahmy
-          </span>
+    <header>
+      <div className="container nav">
+        <a className="brand" href="#top">
+          <span className="logo">AF</span>
+          Ahmed Fahmy
         </a>
-        <nav className="hidden items-center gap-2 md:flex">
-          {[
-            { id: "work", label: "Work" },
-            { id: "about", label: "About" },
-          ].map((l) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
-              className="rounded-xl px-3 py-2 text-sm text-white/80 transition hover:bg-white/5 hover:text-white"
-            >
-              {l.label}
-            </a>
-          ))}
-
+        <nav className="navlinks">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+          <a className="btn-cv" href="Ahmed_Fahmy_Resume.pdf" download>Download CV</a>
         </nav>
       </div>
-    </motion.header>
-  );
+    </header>
+  )
 }
 
 function Hero() {
-  const { scrollYProgress } = useScroll();
-  const y = useParallax(scrollYProgress, 80);
-
   return (
-    <section id="home" className="relative isolate flex min-h-[92vh] items-center overflow-hidden pt-24">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(80rem_40rem_at_50%_-10%,rgba(99,102,241,0.25),rgba(10,10,12,0))]" />
-      <motion.div style={{ y }} className="mx-auto flex max-w-7xl flex-col gap-8 px-4">
-        <div className="inline-flex items-center gap-2">
-          <Badge variant="secondary" className="rounded-full px-3 py-1">XR & Game Developer</Badge>
-          <span className="text-white/60 text-sm">Unity · C# · VR · AR . MR . 3D . 2D </span>
-        </div>
-        <h1 className="text-balance text-5xl font-black leading-[1.05] tracking-tight md:text-7xl">
-          Crafting immersive <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-emerald-300 bg-clip-text text-transparent">XR experiences</span> and <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-emerald-300 bg-clip-text text-transparent">2D/3D Games.</span>
-        </h1>
-        <p className="max-w-2xl text-lg text-white/70">
-          From quick prototypes to polished releases, I shape worlds that balance fun, usability, and performance.
+    <div className="container" id="top">
+      <section className="hero">
+        <div className="role-line">Unity Developer · XR &amp; Game Developer</div>
+        <h1>Building immersive <em>XR</em> &amp; <em>2D/3D</em> games.</h1>
+        <p className="lede">
+          Unity developer with 3+ years architecting scalable core systems and shipping VR training and games
+          across VR, AR, desktop, and WebGL — from quick prototypes to client-deployed products.
         </p>
-        <div className="flex flex-wrap items-center gap-3">
-          <Button asChild className="rounded-2xl">
-            <a href="#work"><Layers className="mr-2 h-4 w-4" /> View work</a>
-          </Button>
-
-          <a href="https://github.com/Ahmed-Fahmy55" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5">
-            <Github className="h-4 w-4" /> GitHub
-          </a>
-          <a href="https://www.linkedin.com/in/ahmed-fahmy-4101231b4/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-2 text-sm text-white/80 hover:bg-white/5">
-            <Linkedin className="h-4 w-4" /> LinkedIn
-          </a>
+        <div className="cta">
+          <a className="primary" href="#work">View work {ICON_ARROW}</a>
+          <a className="ghost" href="Ahmed_Fahmy_Resume.pdf" download>Download CV</a>
+          <a className="ghost" href="https://github.com/Ahmed-Fahmy55" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a className="ghost" href="https://www.linkedin.com/in/ahmed-fahmy-4101231b4/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
-      </motion.div>
-    </section>
-  );
+        <div className="divider" />
+      </section>
+    </div>
+  )
 }
 
-function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
-  const [hover, setHover] = useState(false);
-  const hasVideo = Boolean(p.video);
+function ProjectCard({ p, idx, onOpen }: { p: Project; idx: number; onOpen: (i: number) => void }) {
+  const statusBadge = p.status ? (
+    <span className={`badge-status status-${p.status}`}>
+      <span className="dot-s" />{statusLabel[p.status]}
+    </span>
+  ) : null
 
   return (
-    <Card
-      className="group relative overflow-hidden rounded-3xl border-white/10 bg-white/5 backdrop-blur hover:border-white/20"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <CardHeader className="z-10 flex flex-row items-center justify-between gap-2">
-        <div>
-        <h3 className="text-lg font-semibold text-indigo-400">{p.title}</h3>
-          <p className="text-sm text-white/70">{p.role}</p>
+    <article className="card" data-filter={p.filter}>
+      <div className="media" onClick={() => onOpen(idx)}>
+        <div
+          className="poster"
+          style={
+            p.poster
+              ? { backgroundImage: `url(${p.poster})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+              : p.video
+                ? { backgroundImage: `url(https://img.youtube.com/vi/${p.video}/maxresdefault.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                : { background: p.grad }
+          }
+        >
+          {!p.poster && !p.video && <span className="mark">{p.mark}</span>}
         </div>
-        <div className="flex flex-wrap gap-1">
-          {p.tags.map((t) => (
-            <Badge key={t} variant="outline" className="rounded-full border-white/20 text-xs text-white/70">
-              {t}
-            </Badge>
-          ))}
-        </div>
-      </CardHeader>
-      <CardContent className="relative">
-        <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl border border-white/10 bg-black/60">
-         {hasVideo ? (
-              p.video.includes("youtube") || p.video.includes("youtu.be") ? (
-                <iframe
-                  className="h-full w-full object-cover"
-                  src={`https://www.youtube.com/embed/${
-                    p.video.includes("v=")
-                      ? p.video.split("v=")[1].split("&")[0] // extract id from ?v=xxxx
-                      : p.video.split("/").pop() // extract id from youtu.be/xxxx
-                  }?autoplay=${hover ? 1 : 0}&mute=1&loop=1&playlist=${
-                    p.video.includes("v=")
-                      ? p.video.split("v=")[1].split("&")[0]
-                      : p.video.split("/").pop()
-                  }`}
-                  title="YouTube video"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                />
-              ) : (
-                <video className="h-full w-full object-cover" controls autoPlay={hover} muted loop playsInline poster={p.poster}>
-    <source src={p.video} type="video/mp4" />
-    Your browser does not support the video tag.
-</video> 
-              )
-            ) : (
-              <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.35),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.35),transparent_40%)]" />
-            )}
-
-        </div>
-        <div className="mt-3 flex items-center justify-between">
-          {hasVideo && (
-            <span className="inline-flex items-center gap-1 text-xs text-white/60"><Play className="h-3.5 w-3.5" /> hover to play</span>
-          )}
-        </div>
-      </CardContent>
-      <div className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden>
-        <div className="absolute -inset-16 bg-[conic-gradient(from_120deg_at_50%_50%,rgba(99,102,241,0.15),rgba(236,72,153,0.15),rgba(16,185,129,0.15),rgba(99,102,241,0.15))] blur-3xl" />
+        <div className="scrim" />
+        <span className="badge-cat">{p.tag}</span>
+        {statusBadge}
+        {(p.video || p.localVideo) && (
+          <button className="play" aria-label={`Open ${p.title} case study`}>
+            {ICON_PLAY}
+          </button>
+        )}
       </div>
-    </Card>
-  );
+      <div className="body">
+        <span className="role-pill">{p.role}</span>
+        <h3 className="title">{p.title}</h3>
+        <p className="desc">{p.desc}</p>
+        <div className="chips">
+          {p.chips.map(c => <span key={c} className="chip">{c}</span>)}
+        </div>
+        <div className="foot">
+          <a className="lnk primary" href="#" onClick={e => { e.preventDefault(); onOpen(idx) }}>
+            {ICON_DOC}View case study
+          </a>
+        </div>
+      </div>
+    </article>
+  )
 }
 
-function Work() {
-  const [active, setActive] = useState<(typeof TAGS)[number]>("All");
-  const filtered = useMemo(
-    () => (active === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === active)),
-    [active]
-  );
+function Work({ onOpen }: { onOpen: (i: number) => void }) {
+  const [active, setActive] = useState('all')
+  const filters = ['all', 'VR', 'Games', 'Teaching']
+  const filtered = PROJECTS.map((p, i) => ({ p, i })).filter(({ p }) => active === 'all' || p.filter === active)
 
   return (
-    <section id="work" className="relative mx-auto max-w-7xl px-4 py-20">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <h2 className="text-3xl font-bold">Selected Work</h2>
-        <div className="flex flex-wrap gap-2">
-          {TAGS.map((t) => (
+    <div className="container">
+      <section id="work">
+        <p className="sec-eyebrow">Selected Work</p>
+        <h2 className="sec-title">Projects, built and shipped.</h2>
+        <div className="filters">
+          {filters.map(f => (
             <button
-              key={t}
-              onClick={() => setActive(t)}
-              className={`rounded-2xl border px-3 py-1 text-sm transition ${
-                active === t
-                  ? "border-white/30 bg-white/10"
-                  : "border-white/10 bg-transparent hover:bg-white/5"
-              }`}
+              key={f}
+              className={active === f ? 'active' : ''}
+              onClick={() => setActive(f)}
             >
-              {t}
+              {f === 'all' ? 'All' : f}
             </button>
           ))}
         </div>
-      </div>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {filtered.map((p) => (
-          <motion.div
-            key={p.id}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <ProjectCard p={p} />
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
+        <div className="grid">
+          {filtered.map(({ p, i }) => (
+            <ProjectCard key={p.mark} p={p} idx={i} onOpen={onOpen} />
+          ))}
+        </div>
+      </section>
+    </div>
+  )
 }
 
 function About() {
   return (
-    <section id="about" className="relative mx-auto max-w-7xl px-4 py-20">
-      <div className="grid items-start gap-8 md:grid-cols-5">
-        <div className="md:col-span-2">
-<div className="aspect-[2/3] overflow-hidden rounded-3xl border border-white/10">
-  <img
-    src="/myPhoto.jpg"   
-    alt="Ahmed Fahmy"
-    className="h-full w-full object-cover object-[center_20%]"
-  />
-</div>        </div>
-        <div className="md:col-span-3">
-          <h2 className="text-3xl font-bold">About</h2>
-          <p className="mt-4 text-white/80">
-  As a passionate XR and Game Developer, I specialize in creating immersive VR, AR, and MR experiences that push the boundaries of interaction, realism, and engagement.
-</p>
-
-<p className="mt-4 text-white/80">
-  I have worked on a wide range of XR projects spanning various industries, including:
-</p>
-
-<ul className="mt-4 space-y-2 text-white/80 list-none">
-  <li>✅ Education & Training: VR learning experiences, interactive simulations, and skill-based training applications</li>
-  <li>✅ Healthcare & Medical Simulations: Virtual reality applications for medical training, rehabilitation, and patient education</li>
-  <li>✅ Entertainment & Gaming: Engaging XR-based games and interactive experiences</li>
-  <li>✅ Enterprise & Productivity: VR applications for collaboration, remote work, and real-time data visualization</li>
-    <li>✅ Traditional 2D and 3D games, including games integrated with dashboards for full customization and management, giving clients the ability to tailor gameplay, content, and analytics to their needs.</li>
-
-</ul>
-          <ul className="mt-6 grid grid-cols-2 gap-3 text-sm text-white/70 sm:grid-cols-3">
-            {[
-              "Unity (URP/HDRP)",
-              "VR / AR / MR",
-              "2D/3D Game Development",
-              "Physics / Animation",
-              "Netcode / UGS",
-              "C# / Design Patterns",
-              "Optimization & Profiling",
-              "Git / CI",
-            ].map((s) => (
-              <li key={s} className="rounded-xl border border-white/10 px-3 py-2">{s}</li>
-            ))}
-          </ul>
+    <div className="container">
+      <section id="about">
+        <div className="about-wrap">
+          <div className="about">
+            <p className="sec-eyebrow">About</p>
+            <h2 className="sec-title">XR &amp; game developer focused on systems and performance.</h2>
+            <p>
+              I specialize in creating immersive VR, AR, and MR experiences and 2D/3D games. I've shipped VR
+              training simulations for healthcare and education and built a wide portfolio of games, with a focus
+              on architecting reusable core systems and resolving performance bottlenecks through profiling. I'm
+              comfortable collaborating asynchronously with distributed art, design, and engineering teams.
+            </p>
+          </div>
+          <div className="skills">
+            <h4>Toolbox</h4>
+            <div className="skill-row"><b>Engine</b><span>Unity (URP/HDRP), Shader Graph, Animation, Audio</span></div>
+            <div className="skill-row"><b>XR</b><span>OpenXR, XR Interaction Toolkit, Meta XR SDK</span></div>
+            <div className="skill-row"><b>Networking</b><span>Netcode for GameObjects, Photon Fusion</span></div>
+            <div className="skill-row"><b>Systems</b><span>Addressables / AssetBundles, Unity Gaming Services</span></div>
+            <div className="skill-row"><b>Optimization</b><span>CPU/GPU profiling, memory management</span></div>
+            <div className="skill-row"><b>Languages</b><span>C#, SQL, MySQL</span></div>
+            <div className="skill-row"><b>Process</b><span>Git, CI, Agile / Scrum / Kanban</span></div>
+          </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    </div>
+  )
 }
 
+function Contact() {
+  const ref = useRef<HTMLDivElement>(null)
 
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) el.classList.add('in') }),
+      { threshold: 0.15 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
 
-function Footer() {
   return (
-    <footer className="mx-auto max-w-7xl px-4 pb-12 pt-6 text-sm text-white/60">
-      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-        <p>© {new Date().getFullYear()} Ahmed M. Fahmy. All rights reserved.</p>
-        <div className="flex items-center gap-4">
-          <a href="#home" className="hover:text-white">Top</a>
-          <a href="#work" className="hover:text-white">Work</a>
-          <a href="#about" className="hover:text-white">About</a>
+    <div className="container">
+      <section id="contact">
+        <div className="contact reveal" ref={ref}>
+          <h3>Let's build something immersive.</h3>
+          <p>Open to remote XR and game-development roles. The fastest way to reach me is email — or grab my CV below.</p>
+          <div className="contact-actions">
+            <a className="ca-mail" href="mailto:ahmedfahmydev55@gmail.com">
+              {ICON_MAIL}ahmedfahmydev55@gmail.com
+            </a>
+            <a className="ca-ghost" href="Ahmed_Fahmy_Resume.pdf" download>Download CV</a>
+            <a className="ca-ghost" href="https://www.linkedin.com/in/ahmed-fahmy-4101231b4/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a className="ca-ghost" href="https://github.com/Ahmed-Fahmy55" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
         </div>
-      </div>
-    </footer>
-  );
+      </section>
+    </div>
+  )
 }
 
-export const Route = createFileRoute("/")({
+function Modal({ idx, onClose }: { idx: number | null; onClose: () => void }) {
+  const [playingVideo, setPlayingVideo] = useState(false)
+
+  useEffect(() => {
+    setPlayingVideo(false)
+  }, [idx])
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [onClose])
+
+  useEffect(() => {
+    document.body.style.overflow = idx !== null ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [idx])
+
+  if (idx === null) return null
+  const p = PROJECTS[idx]
+  const statusBadge = p.status ? (
+    <span className={`badge-status status-${p.status}`}>
+      <span className="dot-s" />{statusLabel[p.status]}
+    </span>
+  ) : null
+
+  return (
+    <div className="modal open" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+      <div className="sheet">
+        <div
+          className="sheet-media"
+          style={
+            p.poster
+              ? { backgroundImage: `url(${p.poster})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+              : p.video
+                ? { backgroundImage: `url(https://img.youtube.com/vi/${p.video}/maxresdefault.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                : { background: p.grad }
+          }
+        >
+          {playingVideo && (p.video || p.localVideo) ? (
+            <>
+              {p.localVideo ? (
+                <video
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                  src={p.localVideo}
+                  poster={p.poster ?? undefined}
+                  controls
+                  autoPlay
+                />
+              ) : (
+                <iframe
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+                  src={`https://www.youtube.com/embed/${p.video}?autoplay=1&rel=0`}
+                  title="Demo"
+                  allow="autoplay; encrypted-media; fullscreen"
+                  allowFullScreen
+                />
+              )}
+              <button className="sheet-close" onClick={onClose} aria-label="Close">&times;</button>
+            </>
+          ) : (
+            <>
+              {!p.poster && !p.video && <span className="mark">{p.mark}</span>}
+              <div className="sheet-badges">
+                <span className="badge-cat">{p.tag}</span>
+                {statusBadge}
+              </div>
+              <button className="sheet-close" onClick={onClose} aria-label="Close">&times;</button>
+              {(p.video || p.localVideo)
+                ? <button className="sheet-play" onClick={() => setPlayingVideo(true)} aria-label="Play demo">{ICON_PLAY}</button>
+                : <span className="sheet-soon">Demo video coming soon</span>
+              }
+            </>
+          )}
+        </div>
+        <div className="sheet-body">
+          <h3>{p.title}</h3>
+          <div className="sheet-sub">{p.role}</div>
+          <div className="qa">
+            <div>
+              <div className="q">My Role</div>
+              <div className="a">{p.role}</div>
+            </div>
+            <div>
+              <div className="q">Tech Stack</div>
+              <div className="a">
+                {p.chips.map(c => <span key={c} className="chip">{c}</span>)}
+              </div>
+            </div>
+            <div>
+              <div className="q">The Challenge</div>
+              <div className="a muted">{p.challenge}</div>
+            </div>
+            <div>
+              <div className="q">Outcome</div>
+              <div className="a muted">{p.outcome}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const Route = createFileRoute('/')({
   component: App,
 })
 
 function App() {
+  const [openCase, setOpenCase] = useState<number | null>(null)
+
   return (
-    <div className="min-h-screen bg-[rgb(10,10,12)] text-white">
-      <Header />
-      <main>
-        <Hero />
-        <Work />
-        <About />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Nav />
+      <Hero />
+      <Work onOpen={setOpenCase} />
+      <About />
+      <Contact />
+      <footer>© 2026 Ahmed M. Fahmy — Unity · XR · Game Development</footer>
+      <Modal idx={openCase} onClose={() => setOpenCase(null)} />
+    </>
   )
 }
